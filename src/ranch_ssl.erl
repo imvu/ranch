@@ -265,5 +265,7 @@ ssl_accept(Socket, Timeout) ->
 		ok ->
 			{ok, Socket};
 		{error, Reason} ->
+            error_logger:error_msg("error accepting ssl connection: ~p", [Reason]),
+            close(Socket),
 			{error, {ssl_accept, Reason}}
 	end.

@@ -33,7 +33,8 @@ start_link(LSocket, Transport, ConnsSup) ->
 
 -spec loop(inet:socket(), module(), pid()) -> no_return().
 loop(LSocket, Transport, ConnsSup) ->
-	_ = case Transport:accept(LSocket, infinity) of
+    % It sure would be nice if the transport accept timeout was configurable somehow
+	_ = case Transport:accept(LSocket, 5000) of
 		{ok, CSocket} ->
 			Transport:controlling_process(CSocket, ConnsSup),
 			%% This call will not return until process has been started
